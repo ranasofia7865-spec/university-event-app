@@ -4,3 +4,4 @@ app = FastAPI()
 @app.get("/")
 def home():
     return {"message": "University Event App is running"}
+    
