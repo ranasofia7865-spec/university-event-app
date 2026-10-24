@@ -11,6 +11,8 @@ import departments
 app.include_router(departments.router)
 import events
 app.include_router(events.router)
+import reminders
+app.include_router(reminders.router)
 
 ROLES = ["Admin", "Department Head", "Teacher", "Student"]
 
