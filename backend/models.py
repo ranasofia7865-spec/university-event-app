@@ -32,6 +32,7 @@ class Event(Base):
     title = Column(String(200), nullable=False)
     description = Column(Text)
     event_date = Column(Date, nullable=False)
+    end_date = Column(Date)
     start_time = Column(Time)
     end_time = Column(Time)
     event_type = Column(String(30), nullable=False)

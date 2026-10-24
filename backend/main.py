@@ -7,6 +7,10 @@ from database import SessionLocal
 from auth import hash_password, verify_password, create_token
 
 app = FastAPI()
+import departments
+app.include_router(departments.router)
+import events
+app.include_router(events.router)
 
 ROLES = ["Admin", "Department Head", "Teacher", "Student"]
 
