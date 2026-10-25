@@ -1,8 +1,22 @@
 import { useState, useEffect } from "react";
 import "./App.css";
+import StudentPage from "./StudentPage";
 
 const API = "http://127.0.0.1:8000";
 const ROLES = ["Admin", "Department Head", "Teacher", "Student"];
+const MONTHS = [
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December",
+];
+const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+function pad(n) {
+  return String(n).padStart(2, "0");
+}
+
+function dateKey(d) {
+  return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate());
+}
 
 function formatDate(d) {
   if (!d) return "";
@@ -93,54 +107,172 @@ function Login({ onLogin }) {
   );
 }
 
-function Home({ user, onLogout }) {
-  const [items, setItems] = useState(null);
+function CalendarPage({ user, onLogout }) {
+  const today = new Date();
+  const [month, setMonth] = useState(new Date(today.getFullYear(), today.getMonth(), 1));
+  const [events, setEvents] = useState([]);
+  const [upcoming, setUpcoming] = useState([]);
+  const [changes, setChanges] = useState([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
-    fetch(API + "/reminders/upcoming?days=90", {
-      headers: { Authorization: "Bearer " + user.token },
-    })
-      .then(async (res) => {
-        if (res.status === 401) {
-          onLogout();
-          return;
-        }
-        setItems(await res.json());
+    const headers = { Authorization: "Bearer " + user.token };
+    async function load(path) {
+      const res = await fetch(API + path, { headers: headers });
+      if (res.status === 401) {
+        onLogout();
+        return null;
+      }
+      return res.json();
+    }
+    Promise.all([
+      load("/events"),
+      load("/reminders/upcoming?days=30"),
+      load("/reminders/changes"),
+    ])
+      .then(([ev, up, ch]) => {
+        if (ev) setEvents(ev);
+        if (up) setUpcoming(up);
+        if (ch) setChanges(ch);
       })
       .catch(() => setError("Cannot reach the server. Is the backend running?"));
   }, [user.token]);
 
+  const year = month.getFullYear();
+  const m = month.getMonth();
+  const offset = (new Date(year, m, 1).getDay() + 6) % 7;
+  const daysInMonth = new Date(year, m + 1, 0).getDate();
+  const total = Math.ceil((offset + daysInMonth) / 7) * 7;
+  const todayKey = dateKey(today);
+
+  const cells = [];
+  for (let i = 0; i < total; i++) {
+    const d = new Date(year, m, 1 - offset + i);
+    const key = dateKey(d);
+    const dayEvents = events.filter(
+      (e) => e.event_date <= key && key <= (e.end_date || e.event_date)
+    );
+    cells.push({ d: d, key: key, inMonth: d.getMonth() === m, dayEvents: dayEvents });
+  }
+
+  const staff = user.role !== "Student";
+  const menu = [{ name: "Calendar", on: true }];
+  if (staff) {
+    menu.push({ name: "Templates", on: false });
+    menu.push({ name: "Timetable", on: false });
+  }
+  if (user.role === "Admin") {
+    menu.push({ name: "Users", on: false });
+  }
+
   return (
-    <div>
-      <div className="topbar">
-        <div className="brand">Event Management Reminder App</div>
-        <div className="who">
-          {user.name} ({user.role})
-          <button className="link" onClick={onLogout}>
-            Logout
-          </button>
+    <div className="shell">
+      <div className="side">
+        <div className="side-title">
+          Women University Multan
+          <span>Event Management</span>
         </div>
+        {menu.map((item) => (
+          <div key={item.name} className={"side-item" + (item.on ? " on" : " soon")}>
+            {item.name}
+            {!item.on && <small> soon</small>}
+          </div>
+        ))}
       </div>
-      <div className="content">
-        <h2>Upcoming events (next 90 days)</h2>
-        {error && <div className="error">{error}</div>}
-        {!items && !error && <p>Loading...</p>}
-        {items && items.length === 0 && <p>No upcoming events.</p>}
-        {items &&
-          items.map((e) => (
-            <div key={e.id} className="event">
-              <div className={"tag " + e.event_type.toLowerCase()}>{e.event_type}</div>
-              <div className="event-main">
-                <div className="event-title">{e.title}</div>
-                <div className="event-date">
+      <div className="main">
+        <div className="bar">
+          <div className="bar-title">Event Calendar</div>
+          <div className="who">
+            {user.name} ({user.role})
+            <button className="link" onClick={onLogout}>
+              Logout
+            </button>
+          </div>
+        </div>
+        <div className="body">
+          <div className="cal-wrap">
+            <div className="cal-head">
+              <div className="cal-title">
+                {MONTHS[m]} {year}
+              </div>
+              <div className="cal-nav">
+                <button className="btn" onClick={() => setMonth(new Date(year, m - 1, 1))}>
+                  Previous
+                </button>
+                <button
+                  className="btn"
+                  onClick={() => setMonth(new Date(today.getFullYear(), today.getMonth(), 1))}
+                >
+                  Today
+                </button>
+                <button className="btn" onClick={() => setMonth(new Date(year, m + 1, 1))}>
+                  Next
+                </button>
+              </div>
+            </div>
+            {error && <div className="error">{error}</div>}
+            <div className="legend">
+              <span className="chip exam">Exam</span>
+              <span className="chip event">Event</span>
+              <span className="chip meeting">Meeting</span>
+              <span className="chip holiday">Holiday</span>
+              <span className="chip deadline">Deadline</span>
+            </div>
+            <div className="cal-grid">
+              {DAYS.map((n) => (
+                <div key={n} className="cal-dh">
+                  {n}
+                </div>
+              ))}
+              {cells.map((c) => (
+                <div key={c.key} className={"cal-cell" + (c.inMonth ? "" : " out")}>
+                  <span className={c.key === todayKey ? "cal-today" : "cal-num"}>
+                    {c.d.getDate()}
+                  </span>
+                  {c.dayEvents.slice(0, 3).map((e) => (
+                    <div
+                      key={e.id}
+                      className={
+                        "chip " + e.event_type.toLowerCase() +
+                        (e.status === "Cancelled" ? " cancelled" : "")
+                      }
+                      title={e.title}
+                    >
+                      {e.title}
+                    </div>
+                  ))}
+                  {c.dayEvents.length > 3 && (
+                    <div className="more">+{c.dayEvents.length - 3} more</div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="panel">
+            <h3>Upcoming (next 30 days)</h3>
+            {upcoming.length === 0 && <p className="muted">No upcoming events.</p>}
+            {upcoming.slice(0, 6).map((e) => (
+              <div key={e.id} className="rem">
+                <b>{e.title}</b>
+                <div className="muted">
                   {formatDate(e.event_date)}
                   {e.end_date ? " to " + formatDate(e.end_date) : ""}
                 </div>
+                <div className="rem-label">{e.label}</div>
               </div>
-              <div className="label">{e.label}</div>
-            </div>
-          ))}
+            ))}
+            <h3>Changes</h3>
+            {changes.length === 0 && <p className="muted">No rescheduled or cancelled events.</p>}
+            {changes.map((e) => (
+              <div key={e.id} className="rem">
+                <b>{e.title}</b>
+                <div className="muted">
+                  {e.status}: {formatDate(e.event_date)}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -162,9 +294,11 @@ export default function App() {
     setUser(null);
   }
 
-  return user ? (
-    <Home user={user} onLogout={handleLogout} />
-  ) : (
-    <Login onLogin={handleLogin} />
-  );
+  if (!user) {
+    return <Login onLogin={handleLogin} />;
+  }
+  if (user.role === "Student") {
+    return <StudentPage user={user} onLogout={handleLogout} />;
+  }
+  return <CalendarPage user={user} onLogout={handleLogout} />;
 }
