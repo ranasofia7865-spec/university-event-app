@@ -7,6 +7,8 @@ from database import SessionLocal
 from auth import hash_password, verify_password, create_token
 
 app = FastAPI()
+from fastapi.middleware.cors import CORSMiddleware
+app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173"], allow_methods=["*"], allow_headers=["*"])
 import departments
 app.include_router(departments.router)
 import events
