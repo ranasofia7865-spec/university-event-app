@@ -15,6 +15,10 @@ import events
 app.include_router(events.router)
 import reminders
 app.include_router(reminders.router)
+import templates
+app.include_router(templates.router)
+import timetables
+app.include_router(timetables.router)
 
 ROLES = ["Admin", "Department Head", "Teacher", "Student"]
 

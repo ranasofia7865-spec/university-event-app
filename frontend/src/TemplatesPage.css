@@ -1,0 +1,18 @@
+.side-btn { display: block; width: calc(100% - 16px); text-align: left; border: none; background: none; font-family: inherit; cursor: pointer; }
+.side-btn:hover { background: rgba(255, 255, 255, 0.12); }
+.side-btn.on:hover { background: #fff; }
+.tp-list { width: 250px; flex-shrink: 0; }
+.tp-list h3, .tp-form h3, .tp-preview h3 { color: #1F3A5F; margin: 0 0 12px; font-size: 16px; }
+.tp-card { display: block; width: 100%; text-align: left; padding: 11px 13px; margin-bottom: 8px; background: #fff; border: 1px solid #D9DEE5; border-radius: 8px; cursor: pointer; font-family: inherit; }
+.tp-card.on { border: 2px solid #1F3A5F; background: #EEF2F7; }
+.tp-card b { display: block; font-size: 14px; color: #1F3A5F; }
+.tp-card span { font-size: 12px; color: #666; }
+.tp-form { flex: 1; min-width: 280px; background: #fff; border: 1px solid #D9DEE5; border-radius: 8px; padding: 18px; }
+.tp-field { margin-bottom: 10px; }
+.tp-field label { display: block; font-size: 13px; color: #444; margin-bottom: 4px; }
+.tp-field input { width: 100%; padding: 9px 10px; border: 1px solid #C9D0DA; border-radius: 6px; font-size: 14px; background: #F6F7F9; font-family: inherit; }
+.tp-btn { margin-top: 8px; padding: 10px 22px; }
+.tp-preview { flex: 1; min-width: 280px; background: #fff; border: 1px solid #D9DEE5; border-radius: 8px; padding: 18px; }
+.tp-text { font-size: 14px; line-height: 1.6; padding: 14px; background: #F6F7F9; border-radius: 6px; }
+.tp-missing { margin-top: 10px; padding: 9px 11px; background: #FAEEDA; color: #633806; border-radius: 6px; font-size: 13px; }
+.tp-copy { margin: 12px 0 0; }

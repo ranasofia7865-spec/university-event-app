@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import "./App.css";
 import EventForm from "./EventForm";
+import Sidebar from "./Sidebar";
 
 const API = "http://127.0.0.1:8000";
 const MONTHS = [
@@ -33,7 +34,7 @@ function timeText(e) {
   return start + end;
 }
 
-export default function CalendarPage({ user, onLogout }) {
+export default function CalendarPage({ user, onLogout, onNavigate }) {
   const today = new Date();
   const [month, setMonth] = useState(new Date(today.getFullYear(), today.getMonth(), 1));
   const [events, setEvents] = useState([]);
@@ -126,29 +127,9 @@ export default function CalendarPage({ user, onLogout }) {
   }
 
   const staff = user.role !== "Student";
-  const menu = [{ name: "Calendar", on: true }];
-  if (staff) {
-    menu.push({ name: "Templates", on: false });
-    menu.push({ name: "Timetable", on: false });
-  }
-  if (user.role === "Admin") {
-    menu.push({ name: "Users", on: false });
-  }
-
   return (
     <div className="shell">
-      <div className="side">
-        <div className="side-title">
-          Women University Multan
-          <span>Event Management</span>
-        </div>
-        {menu.map((item) => (
-          <div key={item.name} className={"side-item" + (item.on ? " on" : " soon")}>
-            {item.name}
-            {!item.on && <small> soon</small>}
-          </div>
-        ))}
-      </div>
+      <Sidebar user={user} page="calendar" onNavigate={onNavigate} />
       <div className="main">
         <div className="bar">
           <div className="bar-title">Event Calendar</div>

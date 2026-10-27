@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import "./App.css";
 import StudentPage from "./StudentPage";
 import CalendarPage from "./CalendarPage";
+import TemplatesPage from "./TemplatesPage";
+import TimetablesPage from "./TimetablesPage";
 
 const API = "http://127.0.0.1:8000";
 const ROLES = ["Admin", "Department Head", "Teacher", "Student"];
@@ -109,6 +111,7 @@ function Login({ onLogin }) {
 }
 
 export default function App() {
+  const [page, setPage] = useState("calendar");
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem("user");
     return saved ? JSON.parse(saved) : null;
@@ -121,6 +124,7 @@ export default function App() {
 
   function handleLogout() {
     localStorage.removeItem("user");
+    setPage("calendar");
     setUser(null);
   }
 
@@ -130,5 +134,11 @@ export default function App() {
   if (user.role === "Student") {
     return <StudentPage user={user} onLogout={handleLogout} />;
   }
-  return <CalendarPage user={user} onLogout={handleLogout} />;
+  if (page === "templates") {
+    return <TemplatesPage user={user} onLogout={handleLogout} onNavigate={setPage} />;
+  }
+  if (page === "timetable") {
+    return <TimetablesPage user={user} onLogout={handleLogout} onNavigate={setPage} />;
+  }
+  return <CalendarPage user={user} onLogout={handleLogout} onNavigate={setPage} />;
 }

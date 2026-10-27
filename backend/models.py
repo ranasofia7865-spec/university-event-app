@@ -49,3 +49,35 @@ class Reminder(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     remind_at = Column(DateTime, nullable=False)
     status = Column(String(30), nullable=False, default="Pending")
+
+
+class Timetable(Base):
+    __tablename__ = "timetables"
+    id = Column(Integer, primary_key=True, index=True)
+    department_id = Column(Integer, ForeignKey("departments.id"))
+    program = Column(String(50), nullable=False)
+    semester = Column(String(20), nullable=False)
+    section = Column(String(20), nullable=False)
+    term = Column(String(50), nullable=False)
+    status = Column(String(20), nullable=False, default="Draft")
+    created_by = Column(Integer, ForeignKey("users.id"))
+
+
+class TimetableCourse(Base):
+    __tablename__ = "timetable_courses"
+    id = Column(Integer, primary_key=True, index=True)
+    timetable_id = Column(Integer, ForeignKey("timetables.id"), nullable=False)
+    code = Column(String(30), nullable=False)
+    subject = Column(String(150), nullable=False)
+    credit_hours = Column(String(20))
+    faculty = Column(String(100))
+
+
+class TimetableSlot(Base):
+    __tablename__ = "timetable_slots"
+    id = Column(Integer, primary_key=True, index=True)
+    timetable_id = Column(Integer, ForeignKey("timetables.id"), nullable=False)
+    day = Column(String(15), nullable=False)
+    slot = Column(String(20), nullable=False)
+    course_code = Column(String(30), nullable=False)
+    room = Column(String(30))
