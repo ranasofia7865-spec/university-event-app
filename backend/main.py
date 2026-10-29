@@ -19,6 +19,9 @@ import templates
 app.include_router(templates.router)
 import timetables
 app.include_router(timetables.router)
+import  notifications
+app.include_router(notifications.router)
+
 
 ROLES = ["Admin", "Department Head", "Teacher", "Student"]
 

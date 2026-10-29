@@ -1,3 +1,4 @@
+from datetime import datetime
 from sqlalchemy import Column, Integer, String, Text, Date, Time, DateTime, ForeignKey
 from database import Base
 
@@ -81,3 +82,14 @@ class TimetableSlot(Base):
     slot = Column(String(20), nullable=False)
     course_code = Column(String(30), nullable=False)
     room = Column(String(30))
+
+
+class Notification(Base):
+    __tablename__ = "notifications"
+    id = Column(Integer, primary_key=True, index=True)
+    category = Column(String(30), nullable=False)
+    title = Column(String(200), nullable=False)
+    body = Column(Text)
+    department_id = Column(Integer, ForeignKey("departments.id"))
+    created_by = Column(Integer, ForeignKey("users.id"))
+    created_at = Column(DateTime, default=datetime.utcnow)

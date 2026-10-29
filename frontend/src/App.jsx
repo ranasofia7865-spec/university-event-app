@@ -3,6 +3,7 @@ import "./App.css";
 import StudentPage from "./StudentPage";
 import CalendarPage from "./CalendarPage";
 import TemplatesPage from "./TemplatesPage";
+import HomePage from "./HomePage";
 import TimetablesPage from "./TimetablesPage";
 
 const API = "http://127.0.0.1:8000";
@@ -111,7 +112,7 @@ function Login({ onLogin }) {
 }
 
 export default function App() {
-  const [page, setPage] = useState("calendar");
+  const [page, setPage] = useState("home");
   const [user, setUser] = useState(() => {
     const saved = localStorage.getItem("user");
     return saved ? JSON.parse(saved) : null;
@@ -124,15 +125,18 @@ export default function App() {
 
   function handleLogout() {
     localStorage.removeItem("user");
-    setPage("calendar");
+    setPage("home");
     setUser(null);
   }
 
   if (!user) {
     return <Login onLogin={handleLogin} />;
   }
+  if (page === "home") {
+    return <HomePage user={user} onLogout={handleLogout} onNavigate={setPage} />;
+  }
   if (user.role === "Student") {
-    return <StudentPage user={user} onLogout={handleLogout} />;
+    return <StudentPage user={user} onLogout={handleLogout} onNavigate={setPage} />;
   }
   if (page === "templates") {
     return <TemplatesPage user={user} onLogout={handleLogout} onNavigate={setPage} />;

@@ -41,7 +41,7 @@ function scheduleDays(e) {
   return out;
 }
 
-export default function StudentPage({ user, onLogout }) {
+export default function StudentPage({ user, onLogout, onNavigate }) {
   const [items, setItems] = useState(null);
   const [changes, setChanges] = useState([]);
   const [depts, setDepts] = useState({});
@@ -92,6 +92,9 @@ export default function StudentPage({ user, onLogout }) {
         </div>
         <div className="sp-nav">
           <span className="sp-who">{user.name}</span>
+          <button className="sp-logout" onClick={() => onNavigate("home")}>
+            Home
+          </button>
           <button className="sp-logout" onClick={onLogout}>
             Logout
           </button>

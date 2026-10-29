@@ -1,6 +1,6 @@
 export default function Sidebar({ user, page, onNavigate }) {
   const staff = user.role !== "Student";
-  const items = [{ key: "calendar", name: "Calendar" }];
+  const items = [{ key: "home", name: "Home" }, { key: "calendar", name: "Calendar" }];
   if (staff) {
     items.push({ key: "templates", name: "Templates" });
     items.push({ key: "timetable", name: "Timetable" });
