@@ -1,0 +1,26 @@
+.bfp-body { display: flex; gap: 22px; padding: 18px 24px 28px; align-items: flex-start; }
+.bfp-form { width: 380px; flex-shrink: 0; background: #fff; border: 1px solid #D9DEE5; border-radius: 8px; padding: 16px 18px 18px; }
+.bfp-form h3 { margin: 6px 0 4px; font-size: 15px; color: #1F3A5F; }
+.bfp-form label { display: block; font-size: 13px; color: #444; margin: 10px 0 3px; }
+.bfp-form input, .bfp-form select { width: 100%; padding: 11px 10px; border: 1px solid #C9D0DA; border-radius: 6px; font-size: 16px; font-family: inherit; background: #F6F7F9; min-height: 44px; }
+.bfp-two { display: grid; grid-template-columns: 1fr 1fr; gap: 0 12px; }
+.bfp-actions { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
+.bfp-dl { margin: 0; padding: 13px 20px; min-height: 46px; }
+.bfp-clear { margin: 0; padding: 12px 16px; min-height: 44px; }
+.bfp-ok { margin: 12px 0 0; padding: 10px 12px; background: #EAF3DE; color: #27500A; border-radius: 6px; font-size: 14px; }
+.bfp-hint { margin: 12px 0 0; font-size: 12px; color: #666; }
+
+.bfp-previewbox { flex: 1; min-width: 0; }
+.bfp-paper { position: relative; width: 100%; max-width: 900px; aspect-ratio: 792 / 612; background: #fff; border: 1px solid #C9D0DA; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); container-type: inline-size; color: #000; }
+.bfp-border { position: absolute; left: 3.03%; right: 3.03%; top: 3.92%; bottom: 3.92%; border: 0.38cqw solid #000; pointer-events: none; }
+.bfp-svg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; }
+.bfp-text { position: absolute; left: 9.09%; width: 81.82%; top: 49%; margin: 0; font-family: "Times New Roman", Times, serif; font-size: 1.515cqw; line-height: 3.409cqw; text-align: justify; text-indent: 4.545cqw; }
+.bfp-date { position: absolute; left: 9.09%; top: 69.2%; font-family: "Times New Roman", Times, serif; font-size: 1.515cqw; }
+.bfp-sign { position: absolute; left: 66.9%; top: 69.2%; font-family: "Times New Roman", Times, serif; font-size: 1.515cqw; line-height: 1.77cqw; }
+.bfp-caption { margin-top: 8px; font-size: 12px; color: #666; }
+
+@media (max-width: 1000px) {
+  .bfp-body { flex-direction: column; }
+  .bfp-form { width: 100%; }
+  .bfp-previewbox { width: 100%; }
+}

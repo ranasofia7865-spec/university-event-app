@@ -6,6 +6,7 @@ import TemplatesPage from "./TemplatesPage";
 import HomePage from "./HomePage";
 import DatesheetsPage from "./DatesheetsPage";
 import TimetablesPage from "./TimetablesPage";
+import BonafidePage from "./BonafidePage";
 
 const API = "http://127.0.0.1:8000";
 const ROLES = ["Admin", "Department Head", "Teacher", "Student"];
@@ -144,6 +145,9 @@ export default function App() {
   }
   if (page === "templates") {
     return <TemplatesPage user={user} onLogout={handleLogout} onNavigate={setPage} />;
+  }
+  if (page === "bonafide") {
+    return <BonafidePage user={user} onLogout={handleLogout} onNavigate={setPage} />;
   }
   if (page === "timetable") {
     return <TimetablesPage user={user} onLogout={handleLogout} onNavigate={setPage} />;

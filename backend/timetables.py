@@ -1,10 +1,14 @@
+import re
+
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import Response
 from pydantic import BaseModel
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
 
 import models
 from auth import get_db, get_current_user, require_roles
+from timetable_pdf import build_pdf
 
 router = APIRouter(prefix="/timetables", tags=["timetables"])
 
@@ -174,6 +178,66 @@ def list_published(db: Session = Depends(get_db), user=Depends(get_current_user)
         )
     rows = query.order_by(models.Timetable.id).all()
     return [summary(db, t) for t in rows]
+
+
+def semester_key(value):
+    m = re.match(r"\s*(\d+)", value or "")
+    return int(m.group(1)) if m else 99
+
+
+@router.get("/pdf")
+def department_pdf(
+    term: str | None = None,
+    department_id: int | None = None,
+    db: Session = Depends(get_db),
+    user=Depends(get_current_user),
+):
+    query = db.query(models.Timetable)
+    if term:
+        query = query.filter(models.Timetable.term == term)
+    if user.role == "Admin":
+        if department_id is not None:
+            query = query.filter(models.Timetable.department_id == department_id)
+    else:
+        query = query.filter(
+            or_(
+                models.Timetable.department_id.is_(None),
+                models.Timetable.department_id == user.department_id,
+            )
+        )
+        if user.role not in STAFF:
+            query = query.filter(models.Timetable.status == "Published")
+    sheets = query.all()
+    if not sheets:
+        raise HTTPException(status_code=404, detail="No timetables found yet")
+    sheets.sort(key=lambda t: (t.program, semester_key(t.semester), t.section))
+    names = {d.id: d.name for d in db.query(models.Department).all()}
+    data = []
+    for t in sheets:
+        info = detail(db, t)
+        data.append(
+            {
+                "term": t.term,
+                "program": t.program,
+                "semester": t.semester,
+                "section": t.section,
+                "department": names.get(t.department_id),
+                "days": info["days"],
+                "time_slots": info["time_slots"],
+                "cells": {
+                    (s["day"], s["slot"]): (s["course_code"], s["room"] or "")
+                    for s in info["slots"]
+                },
+                "courses": info["courses"],
+            }
+        )
+    pdf = build_pdf(data)
+    filename = "Class_Timetables_Department.pdf"
+    return Response(
+        content=pdf,
+        media_type="application/pdf",
+        headers={"Content-Disposition": 'attachment; filename="' + filename + '"'},
+    )
 
 
 @router.post("")

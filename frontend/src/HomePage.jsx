@@ -273,7 +273,7 @@ export default function HomePage({ user, onLogout, onNavigate }) {
     { name: "Datesheet", action: staff ? () => onNavigate("datesheet") : () => downloadPdf("Mid-term") },
     { name: "Academic calendar", action: () => onNavigate(calendarPage) },
     { name: "FYP notices", action: () => { setFilter("FYP"); scrollToFeed(); } },
-    { name: "Bonafide certificate", action: null },
+    { name: "Bonafide certificate", action: staff ? () => onNavigate("bonafide") : null },
     { name: "Department PDF", action: null },
   ];
 
@@ -307,7 +307,7 @@ export default function HomePage({ user, onLogout, onNavigate }) {
           <button onClick={staff ? () => onNavigate("datesheet") : () => downloadPdf("Mid-term")}>Datesheets</button>
           <button onClick={() => onNavigate(calendarPage)}>Calendar</button>
           <button onClick={() => { setFilter("FYP"); scrollToFeed(); }}>FYP</button>
-          <button className="off">Certificates</button>
+          <button onClick={staff ? () => onNavigate("bonafide") : undefined} className={staff ? "" : "off"}>Certificates</button>
         </div>
       </div>
       <div className="hp-hero">

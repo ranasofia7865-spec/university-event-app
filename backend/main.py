@@ -7,6 +7,7 @@ import models
 from database import SessionLocal
 from auth import hash_password, verify_password, create_token
 
+import certificates
 import datesheets
 import departments
 import events
@@ -24,6 +25,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(certificates.router)
 app.include_router(datesheets.router)
 app.include_router(departments.router)
 app.include_router(events.router)
