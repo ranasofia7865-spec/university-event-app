@@ -1,4 +1,5 @@
 from fastapi import FastAPI, Depends, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 
@@ -6,22 +7,30 @@ import models
 from database import SessionLocal
 from auth import hash_password, verify_password, create_token
 
-app = FastAPI()
-from fastapi.middleware.cors import CORSMiddleware
-app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173"], allow_methods=["*"], allow_headers=["*"])
+import datesheets
 import departments
-app.include_router(departments.router)
 import events
-app.include_router(events.router)
 import reminders
-app.include_router(reminders.router)
+import notifications
 import templates
-app.include_router(templates.router)
 import timetables
-app.include_router(timetables.router)
-import  notifications
-app.include_router(notifications.router)
 
+app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173"],
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+app.include_router(datesheets.router)
+app.include_router(departments.router)
+app.include_router(events.router)
+app.include_router(notifications.router)
+app.include_router(reminders.router)
+app.include_router(templates.router)
+app.include_router(timetables.router)
 
 ROLES = ["Admin", "Department Head", "Teacher", "Student"]
 

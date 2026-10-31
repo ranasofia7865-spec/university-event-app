@@ -3,6 +3,7 @@ export default function Sidebar({ user, page, onNavigate }) {
   const items = [{ key: "home", name: "Home" }, { key: "calendar", name: "Calendar" }];
   if (staff) {
     items.push({ key: "templates", name: "Templates" });
+    items.push({ key: "datesheet", name: "Datesheet" });
     items.push({ key: "timetable", name: "Timetable" });
   }
   if (user.role === "Admin") {

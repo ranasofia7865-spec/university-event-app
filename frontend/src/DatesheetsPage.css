@@ -1,0 +1,73 @@
+.dsp-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding: 14px 24px 0; }
+.dsp-view { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.dsp-view label { font-size: 14px; color: #444; }
+.dsp-view select { padding: 10px 12px; font-size: 15px; border: 1px solid #C9D0DA; border-radius: 6px; background: #fff; font-family: inherit; min-height: 44px; }
+.dsp-count { font-size: 13px; color: #666; }
+.dsp-toolbar-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.dsp-newbtn { margin: 0; padding: 12px 18px; font-size: 14px; min-height: 44px; }
+.dsp-pdfbtn { margin: 0; padding: 12px 20px; min-height: 44px; }
+
+.dsp-newform { margin: 14px 24px 0; padding: 14px; background: #fff; border: 1px solid #D9DEE5; border-radius: 8px; }
+.dsp-newgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.dsp-newform label { display: block; font-size: 13px; color: #444; margin-bottom: 3px; }
+.dsp-newform input, .dsp-newform select { width: 100%; padding: 11px 10px; border: 1px solid #C9D0DA; border-radius: 6px; font-size: 16px; font-family: inherit; background: #F6F7F9; }
+.dsp-newform .dsp-check { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 14px; }
+.dsp-newform .dsp-check input { width: auto; }
+.dsp-newactions { display: flex; gap: 8px; margin-top: 12px; }
+
+.dsp-body { display: flex; gap: 18px; padding: 16px 24px 24px; align-items: flex-start; }
+.dsp-strip { width: 190px; flex-shrink: 0; display: flex; flex-direction: column; gap: 8px; max-height: calc(100vh - 150px); overflow-y: auto; }
+.dsp-thumb { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; padding: 10px; background: #fff; border: 1px solid #D9DEE5; border-radius: 8px; cursor: pointer; font-family: inherit; min-height: 56px; }
+.dsp-thumb.on { border: 2px solid #1F3A5F; background: #EEF2F7; }
+.dsp-thumb-no { width: 26px; height: 26px; flex-shrink: 0; border-radius: 50%; background: #1F3A5F; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; }
+.dsp-thumb-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.dsp-thumb-text b { font-size: 14px; color: #1F3A5F; }
+.dsp-thumb-text span { font-size: 12px; color: #666; }
+.dsp-thumb-add { justify-content: center; border: 1px dashed #1F3A5F; color: #1F3A5F; font-size: 14px; background: #F6F8FB; }
+.dsp-thumb:disabled { opacity: 0.5; cursor: default; }
+.dsp-status { font-style: normal; align-self: flex-start; padding: 1px 8px; border-radius: 10px; font-size: 11px; }
+.dsp-status.draft { background: #FAEEDA; color: #633806; }
+.dsp-status.published { background: #EAF3DE; color: #27500A; }
+
+.dsp-stage { flex: 1; min-width: 0; }
+.dsp-ok { margin: 0 0 12px; padding: 10px 12px; background: #EAF3DE; color: #27500A; border-radius: 6px; font-size: 14px; }
+
+/* The slide: looks like one page of the printed datesheet */
+.dsp-slide { background: #fff; border: 1px solid #C9D0DA; border-radius: 4px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); padding: 26px 30px 22px; min-height: 420px; color: #000; }
+.dsp-slide-head { display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 14px; min-height: 70px; }
+.dsp-logo { position: absolute; left: 4%; top: 0; width: 70px; height: 70px; object-fit: contain; }
+.dsp-titles { text-align: center; padding: 0 90px; font-family: "Times New Roman", Times, serif; font-weight: bold; line-height: 1.5; }
+.dsp-uni { font-size: 20px; }
+.dsp-inst { font-size: 18px; }
+.dsp-classline { font-weight: bold; font-size: 14px; margin: 0 0 8px 2px; }
+.dsp-scroll { overflow-x: auto; }
+.dsp-table { width: 100%; min-width: 780px; table-layout: fixed; border-collapse: collapse; margin-bottom: 8px; }
+.dsp-table th, .dsp-table td { border: 1.5px solid #000; padding: 0; font-size: 14px; text-align: left; vertical-align: middle; }
+.dsp-table th { padding: 8px; background: #fff; }
+.dsp-table td:first-child { padding: 6px 8px; text-align: center; }
+.dsp-table th.dsp-x, .dsp-table td.dsp-x { border: none; padding: 0; text-align: center; }
+.dsp-table input, .dsp-table textarea { display: block; width: 100%; padding: 8px; font-size: 14px; font-family: inherit; border: none; background: transparent; color: #000; min-height: 40px; resize: none; overflow: auto; field-sizing: content; }
+.dsp-table input:focus, .dsp-table textarea:focus { outline: 2px solid #1F3A5F; outline-offset: -2px; background: #FFFBE6; }
+.dsp-table td.dsp-duty { background: #92D050; }
+.dsp-xbtn { width: 34px; height: 34px; border: none; background: transparent; color: #A32D2D; font-size: 22px; cursor: pointer; border-radius: 6px; }
+.dsp-xbtn:hover { background: #FCEBEB; }
+.dsp-addrow { margin: 0 0 14px; padding: 10px 16px; min-height: 40px; }
+.dsp-sigrow { display: flex; gap: 20px; flex-wrap: wrap; justify-content: space-between; padding: 0 4%; font-size: 14px; }
+.dsp-sig { flex: 1; min-width: 200px; line-height: 1.6; }
+.dsp-sig input { display: block; width: 100%; max-width: 260px; padding: 6px 4px; font-size: 14px; font-family: inherit; border: none; border-bottom: 1px dashed #999; background: transparent; margin-bottom: 4px; }
+.dsp-sig input:focus { outline: 2px solid #1F3A5F; background: #FFFBE6; }
+
+.dsp-nav { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: 14px 0; flex-wrap: wrap; }
+.dsp-nav .btn { margin: 0; padding: 11px 16px; min-height: 44px; }
+.dsp-pos { font-size: 14px; color: #1F3A5F; font-weight: bold; }
+.dsp-unsaved { color: #A35A00; font-weight: normal; }
+.dsp-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.dsp-actions .btn, .dsp-actions .ef-danger { margin-left: 0; padding: 12px 18px; min-height: 44px; }
+.dsp-save { margin: 0; padding: 12px 26px; min-height: 44px; }
+
+@media (max-width: 1000px) {
+  .dsp-body { flex-direction: column; }
+  .dsp-strip { width: 100%; flex-direction: row; overflow-x: auto; overflow-y: hidden; max-height: none; padding-bottom: 6px; }
+  .dsp-thumb { min-width: 170px; width: auto; flex-shrink: 0; }
+  .dsp-stage { width: 100%; }
+}

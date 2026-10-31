@@ -187,6 +187,38 @@ export default function HomePage({ user, onLogout, onNavigate }) {
     }
   }
 
+  async function downloadPdf(kind) {
+    setError("");
+    try {
+      const res = await fetch(API + "/datesheets/pdf?kind=" + encodeURIComponent(kind), {
+        headers: headers,
+      });
+      if (res.status === 401) {
+        onLogout();
+        return;
+      }
+      if (!res.ok) {
+        let data = null;
+        try {
+          data = await res.json();
+        } catch (e) {
+          data = null;
+        }
+        setError(data && typeof data.detail === "string" ? data.detail : "Could not make the PDF");
+        return;
+      }
+      const blob = await res.blob();
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = kind.replace(" ", "_") + "_Datesheet_Department.pdf";
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    } catch (err) {
+      setError("Cannot reach the server. Is the backend running?");
+    }
+  }
+
   function scrollToFeed() {
     const el = document.getElementById("feed");
     if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -238,7 +270,7 @@ export default function HomePage({ user, onLogout, onNavigate }) {
 
   const tiles = [
     { name: "Timetable", action: staff ? () => onNavigate("timetable") : null },
-    { name: "Datesheet", action: null },
+    { name: "Datesheet", action: staff ? () => onNavigate("datesheet") : () => downloadPdf("Mid-term") },
     { name: "Academic calendar", action: () => onNavigate(calendarPage) },
     { name: "FYP notices", action: () => { setFilter("FYP"); scrollToFeed(); } },
     { name: "Bonafide certificate", action: null },
@@ -272,7 +304,7 @@ export default function HomePage({ user, onLogout, onNavigate }) {
         <div className="hp-nav">
           <span className="on">Home</span>
           <button onClick={staff ? () => onNavigate("timetable") : undefined} className={staff ? "" : "off"}>Timetables</button>
-          <button className="off">Datesheets</button>
+          <button onClick={staff ? () => onNavigate("datesheet") : () => downloadPdf("Mid-term")}>Datesheets</button>
           <button onClick={() => onNavigate(calendarPage)}>Calendar</button>
           <button onClick={() => { setFilter("FYP"); scrollToFeed(); }}>FYP</button>
           <button className="off">Certificates</button>
@@ -355,17 +387,23 @@ export default function HomePage({ user, onLogout, onNavigate }) {
         <h2>Department PDFs</h2>
         <div className="hp-pdfs">
           {[
-            ["Datesheet", "Mid-term datesheet, all classes"],
-            ["Timetable", "Lecture timetable, all classes"],
-            ["Calendar", "Academic calendar 2026-27"],
+            ["Datesheet", "Mid-term datesheet, all classes", "Mid-term"],
+            ["Datesheet", "Final term datesheet, all classes", "Final term"],
+            ["Timetable", "Lecture timetable, all classes", null],
           ].map((p) => (
             <div key={p[1]} className="hp-pdf">
               <div className="hp-muted">{p[0]}</div>
               <b>{p[1]}</b>
               <p className="hp-muted">One PDF for the whole department</p>
-              <button className="hp-btn off" disabled>
-                Coming soon
-              </button>
+              {p[2] ? (
+                <button className="hp-btn" onClick={() => downloadPdf(p[2])}>
+                  Download PDF
+                </button>
+              ) : (
+                <button className="hp-btn off" disabled>
+                  Coming soon
+                </button>
+              )}
             </div>
           ))}
         </div>
@@ -380,7 +418,7 @@ export default function HomePage({ user, onLogout, onNavigate }) {
             <button className="hp-solid" onClick={() => onNavigate("timetable")}>
               + Add class timetable
             </button>
-            <button className="hp-solid off" disabled>
+            <button className="hp-solid" onClick={() => onNavigate("datesheet")}>
               + Add datesheet
             </button>
             <button className="hp-outline" onClick={() => onNavigate("templates")}>

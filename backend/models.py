@@ -93,3 +93,33 @@ class Notification(Base):
     department_id = Column(Integer, ForeignKey("departments.id"))
     created_by = Column(Integer, ForeignKey("users.id"))
     created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class Datesheet(Base):
+    __tablename__ = "datesheets"
+    id = Column(Integer, primary_key=True, index=True)
+    department_id = Column(Integer, ForeignKey("departments.id"))
+    kind = Column(String(20), nullable=False)
+    term = Column(String(50), nullable=False)
+    program = Column(String(50), nullable=False)
+    semester = Column(String(20), nullable=False)
+    session = Column(String(30), nullable=False)
+    section = Column(String(20), nullable=False)
+    status = Column(String(20), nullable=False, default="Draft")
+    incharge_bsit = Column(String(100))
+    incharge_bscs = Column(String(100))
+    director = Column(String(100))
+    created_by = Column(Integer, ForeignKey("users.id"))
+
+
+class DatesheetRow(Base):
+    __tablename__ = "datesheet_rows"
+    id = Column(Integer, primary_key=True, index=True)
+    datesheet_id = Column(Integer, ForeignKey("datesheets.id"), nullable=False)
+    position = Column(Integer)
+    exam_date = Column(Date, nullable=False)
+    subject = Column(String(200), nullable=False)
+    time_text = Column(String(50))
+    venue = Column(String(50))
+    instructor = Column(String(100))
+    duty = Column(String(100))

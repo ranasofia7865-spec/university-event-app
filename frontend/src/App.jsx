@@ -4,6 +4,7 @@ import StudentPage from "./StudentPage";
 import CalendarPage from "./CalendarPage";
 import TemplatesPage from "./TemplatesPage";
 import HomePage from "./HomePage";
+import DatesheetsPage from "./DatesheetsPage";
 import TimetablesPage from "./TimetablesPage";
 
 const API = "http://127.0.0.1:8000";
@@ -137,6 +138,9 @@ export default function App() {
   }
   if (user.role === "Student") {
     return <StudentPage user={user} onLogout={handleLogout} onNavigate={setPage} />;
+  }
+  if (page === "datesheet") {
+    return <DatesheetsPage user={user} onLogout={handleLogout} onNavigate={setPage} />;
   }
   if (page === "templates") {
     return <TemplatesPage user={user} onLogout={handleLogout} onNavigate={setPage} />;
