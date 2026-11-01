@@ -4,8 +4,8 @@ export default function Sidebar({ user, page, onNavigate }) {
   if (staff) {
     items.push({ key: "templates", name: "Templates" });
     items.push({ key: "datesheet", name: "Datesheet" });
+    items.push({ key: "certificate", name: "Certificate" });
     items.push({ key: "timetable", name: "Timetable" });
-    items.push({ key: "bonafide", name: "Bonafide" });
   }
   if (user.role === "Admin") {
     items.push({ key: "users", name: "Users", soon: true });
