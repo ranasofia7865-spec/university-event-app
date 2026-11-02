@@ -33,6 +33,33 @@ function nextSection(section) {
   return "";
 }
 
+// Opens the browser print window for a PDF (no download needed)
+function printBlob(blob) {
+  const url = URL.createObjectURL(blob);
+  const frame = document.createElement("iframe");
+  frame.style.position = "fixed";
+  frame.style.right = "0";
+  frame.style.bottom = "0";
+  frame.style.width = "1px";
+  frame.style.height = "1px";
+  frame.style.border = "0";
+  frame.style.opacity = "0";
+  frame.src = url;
+  frame.onload = function () {
+    try {
+      frame.contentWindow.focus();
+      frame.contentWindow.print();
+    } catch (e) {
+      window.open(url, "_blank");
+    }
+  };
+  document.body.appendChild(frame);
+  setTimeout(function () {
+    frame.remove();
+    URL.revokeObjectURL(url);
+  }, 120000);
+}
+
 function noEnter(e) {
   if (e.key === "Enter") e.preventDefault();
 }
@@ -316,7 +343,7 @@ export default function DatesheetsPage({ user, onLogout, onNavigate }) {
     }
   }
 
-  async function downloadPdf() {
+  async function downloadPdf(mode) {
     if (dirty) {
       const ok = await saveCurrent();
       if (!ok) return;
@@ -342,13 +369,18 @@ export default function DatesheetsPage({ user, onLogout, onNavigate }) {
         return;
       }
       const blob = await res.blob();
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = kind.replace(" ", "_") + "_Datesheet_Department.pdf";
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      setMessage("One PDF with " + shown.length + " slides was downloaded.");
+      if (mode === "print") {
+        printBlob(blob);
+        setMessage("The print window is opening for " + shown.length + " slides.");
+      } else {
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        link.download = kind.replace(" ", "_") + "_Datesheet_Department.pdf";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setMessage("One PDF with " + shown.length + " slides was downloaded.");
+      }
     } catch (err) {
       fail(err);
     } finally {
@@ -422,7 +454,10 @@ export default function DatesheetsPage({ user, onLogout, onNavigate }) {
             <button className="btn dsp-newbtn" onClick={openNew} disabled={busy || list.length >= MAX_SLIDES}>
               + New slide
             </button>
-            <button className="primary dsp-pdfbtn" onClick={downloadPdf} disabled={busy || shown.length === 0}>
+            <button className="btn dsp-newbtn" onClick={() => downloadPdf("print")} disabled={busy || shown.length === 0}>
+              Print all slides
+            </button>
+            <button className="primary dsp-pdfbtn" onClick={() => downloadPdf("download")} disabled={busy || shown.length === 0}>
               Download ONE PDF ({shown.length} slides)
             </button>
           </div>

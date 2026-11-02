@@ -40,6 +40,33 @@ function saveClass(f) {
   }
 }
 
+// Opens the browser print window for a PDF (no download needed)
+function printBlob(blob) {
+  const url = URL.createObjectURL(blob);
+  const frame = document.createElement("iframe");
+  frame.style.position = "fixed";
+  frame.style.right = "0";
+  frame.style.bottom = "0";
+  frame.style.width = "1px";
+  frame.style.height = "1px";
+  frame.style.border = "0";
+  frame.style.opacity = "0";
+  frame.src = url;
+  frame.onload = function () {
+    try {
+      frame.contentWindow.focus();
+      frame.contentWindow.print();
+    } catch (e) {
+      window.open(url, "_blank");
+    }
+  };
+  document.body.appendChild(frame);
+  setTimeout(function () {
+    frame.remove();
+    URL.revokeObjectURL(url);
+  }, 120000);
+}
+
 function Val({ text, blank }) {
   const t = (text || "").trim();
   return t ? <b>{t}</b> : <span>{blank || "____________________"}</span>;
@@ -73,7 +100,7 @@ export default function CertificatePage({ user, onLogout, onNavigate }) {
     setError("");
   }
 
-  async function download() {
+  async function download(mode) {
     setError("");
     setMessage("");
     setBusy(true);
@@ -101,15 +128,21 @@ export default function CertificatePage({ user, onLogout, onNavigate }) {
         return;
       }
       const blob = await res.blob();
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      const nm = f.student_name.trim().replace(/[^A-Za-z0-9]+/g, "_").replace(/^_+|_+$/g, "") || "Student";
-      link.download = "Bonafide_" + nm + ".pdf";
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      saveClass(f);
-      setMessage("Certificate downloaded. Class details are remembered for the next student.");
+      if (mode === "print") {
+        printBlob(blob);
+        saveClass(f);
+        setMessage("The print window is opening. Class details are remembered for the next student.");
+      } else {
+        const link = document.createElement("a");
+        link.href = URL.createObjectURL(blob);
+        const nm = f.student_name.trim().replace(/[^A-Za-z0-9]+/g, "_").replace(/^_+|_+$/g, "") || "Student";
+        link.download = "Bonafide_" + nm + ".pdf";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        saveClass(f);
+        setMessage("Certificate downloaded. Class details are remembered for the next student.");
+      }
     } catch (err) {
       setError(
         err.message === "Failed to fetch"
@@ -205,8 +238,11 @@ export default function CertificatePage({ user, onLogout, onNavigate }) {
             {error && <div className="error">{error}</div>}
             {message && <div className="bfp-ok">{message}</div>}
             <div className="bfp-actions">
-              <button className="primary bfp-dl" onClick={download} disabled={busy}>
+              <button className="primary bfp-dl" onClick={() => download("download")} disabled={busy}>
                 {busy ? "Making PDF..." : "Download certificate PDF"}
+              </button>
+              <button className="btn bfp-clear" onClick={() => download("print")} disabled={busy}>
+                Print certificate
               </button>
               <button className="btn bfp-clear" onClick={clearStudent} disabled={busy}>
                 Next student (clear name, father, roll no)
