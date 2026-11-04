@@ -17,6 +17,7 @@ class User(Base):
     password = Column(String(255), nullable=False)
     role = Column(String(30), nullable=False)
     department_id = Column(Integer, ForeignKey("departments.id"))
+    student_id = Column(String(50))
 
 
 class Template(Base):

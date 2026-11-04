@@ -7,6 +7,9 @@ export default function Sidebar({ user, page, onNavigate }) {
     items.push({ key: "certificate", name: "Certificate" });
     items.push({ key: "timetable", name: "Timetable" });
   }
+  if (user.role === "Admin" || user.role === "Department Head") {
+    items.push({ key: "students", name: "Students" });
+  }
   if (user.role === "Admin") {
     items.push({ key: "users", name: "Users", soon: true });
   }

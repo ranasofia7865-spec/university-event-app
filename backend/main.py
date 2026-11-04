@@ -12,6 +12,7 @@ import datesheets
 import departments
 import events
 import reminders
+import students
 import notifications
 import templates
 import timetables
@@ -31,6 +32,7 @@ app.include_router(departments.router)
 app.include_router(events.router)
 app.include_router(notifications.router)
 app.include_router(reminders.router)
+app.include_router(students.router)
 app.include_router(templates.router)
 app.include_router(timetables.router)
 
