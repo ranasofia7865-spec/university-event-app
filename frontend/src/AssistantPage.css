@@ -1,0 +1,68 @@
+.asp-hidden { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.asp-app { display: flex; height: calc(100vh - 58px); min-height: 520px; background: #F3F9F8; position: relative; }
+.asp-side { width: 270px; flex-shrink: 0; background: #fff; border-right: 1px solid #D3E5E2; padding: 14px 12px; display: flex; flex-direction: column; box-sizing: border-box; }
+.asp-new { width: 100%; padding: 11px 12px; min-height: 44px; border: 0; border-radius: 8px; background: #0F766E; color: #fff; font-size: 15px; font-weight: 600; cursor: pointer; font-family: inherit; }
+.asp-search { margin: 10px 0 0; padding: 10px 12px; border: 1px solid #CBE0DC; border-radius: 8px; font-size: 14px; min-height: 44px; box-sizing: border-box; width: 100%; font-family: inherit; }
+.asp-chatlist { flex: 1; overflow-y: auto; margin: 6px -4px; padding: 0 4px; }
+.asp-group { margin: 14px 8px 4px; font-size: 12px; color: #5B6675; letter-spacing: 0.04em; }
+.asp-chatbtn { display: block; width: 100%; text-align: left; padding: 10px; min-height: 44px; border: 0; border-radius: 8px; background: transparent; color: #2B3440; font-size: 14px; cursor: pointer; font-family: inherit; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.asp-chatbtn:hover { background: #E8F4F2; }
+.asp-chatbtn.on { background: #D5EFEB; font-weight: 600; }
+.asp-empty-list { padding: 14px 10px; font-size: 13px; color: #777; }
+.asp-me { display: flex; align-items: center; gap: 10px; padding: 10px; border-top: 1px solid #DCEBE8; font-size: 14px; }
+.asp-avatar { width: 36px; height: 36px; border-radius: 50%; background: #0F766E; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; flex-shrink: 0; }
+.asp-role { font-size: 12px; color: #5B6675; }
+
+.asp-chat { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.asp-head { display: flex; align-items: center; gap: 12px; padding: 12px 24px; background: #fff; border-bottom: 1px solid #D3E5E2; flex-wrap: wrap; }
+.asp-head h2 { margin: 0; font-size: 17px; color: #1B2430; flex: 1; min-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.asp-headright { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+.asp-headright select { padding: 10px; border: 1px solid #BFD8D4; border-radius: 6px; font-size: 14px; background: #fff; min-height: 44px; font-family: inherit; max-width: 280px; }
+.asp-del { margin: 0; padding: 10px 14px; min-height: 44px; }
+.asp-chatsbtn { display: none; margin: 0; padding: 10px 14px; min-height: 44px; }
+
+.asp-scroll { flex: 1; overflow-y: auto; padding: 22px 28px; }
+.asp-welcome { max-width: 640px; margin: 40px auto 0; text-align: center; }
+.asp-welcome h3 { margin: 0 0 6px; font-size: 22px; color: #0F766E; }
+.asp-welcome p { margin: 0 0 18px; color: #5B6675; font-size: 15px; }
+.asp-examples { display: flex; flex-direction: column; gap: 10px; }
+.asp-example { text-align: left; padding: 12px 14px; min-height: 44px; background: #fff; border: 1px solid #CBE0DC; border-radius: 10px; font-size: 14px; color: #2B3440; cursor: pointer; font-family: inherit; line-height: 1.45; }
+.asp-example:hover { background: #E8F4F2; }
+.asp-messages { display: flex; flex-direction: column; gap: 16px; }
+.asp-user { align-self: flex-end; max-width: 560px; background: #D2EFEB; border-radius: 16px 16px 4px 16px; padding: 12px 16px; font-size: 15px; line-height: 1.5; white-space: pre-wrap; color: #1B2430; }
+.asp-bot { max-width: 700px; }
+.asp-bot-line { margin: 0 0 8px; font-size: 15px; color: #2B3440; }
+.asp-thinking { color: #5B6675; font-size: 14px; }
+.asp-notice { background: #fff; border: 1px solid #CBE0DC; border-radius: 14px; padding: 16px 18px; }
+.asp-notice-title { font-weight: 700; color: #0F766E; font-size: 16px; }
+.asp-text { margin: 10px 0; font-size: 15px; line-height: 1.65; color: #1B2430; }
+.asp-ph { background: #FFF1D6; color: #8A4B00; border-radius: 4px; padding: 0 4px; }
+.asp-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 4px; }
+.asp-chip { display: inline-block; padding: 5px 10px; border-radius: 999px; background: #E7F5F3; color: #0F766E; font-size: 13px; }
+.asp-chip.warn { background: #FAEEDA; color: #633806; }
+.asp-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 14px; }
+.asp-btn { margin: 0; padding: 10px 18px; min-height: 44px; }
+.asp-edit { margin-top: 12px; display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 8px 14px; }
+.asp-edit .error, .asp-edit .asp-row { grid-column: 1 / -1; }
+.asp-edit-field label { display: block; font-size: 13px; color: #444; margin: 4px 0 3px; text-transform: capitalize; }
+.asp-edit-field input { width: 100%; padding: 10px; border: 1px solid #BFD8D4; border-radius: 6px; font-size: 15px; background: #F3F9F8; min-height: 44px; box-sizing: border-box; font-family: inherit; }
+
+.asp-msg { margin: 0 24px 8px; }
+.asp-ok { padding: 10px 12px; background: #EAF3DE; color: #27500A; border-radius: 6px; font-size: 14px; }
+.asp-foot { padding: 0 24px 16px; }
+.asp-composer { display: flex; align-items: flex-end; gap: 4px; background: #fff; border: 1px solid #BFD8D4; border-radius: 16px; padding: 8px 10px; }
+.asp-composer textarea { flex: 1; border: 0; outline: 0; font-size: 15px; padding: 11px 6px; background: transparent; resize: none; font-family: inherit; max-height: 140px; min-height: 22px; field-sizing: content; }
+.asp-ib { width: 44px; height: 44px; flex-shrink: 0; border: 0; border-radius: 10px; background: transparent; color: #0F766E; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.asp-ib svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.asp-ib:disabled { opacity: 0.4; cursor: default; }
+.asp-send { background: #0F766E; color: #fff; }
+.asp-send:disabled { background: #8FB8B3; opacity: 1; }
+.asp-hint { margin-top: 8px; font-size: 12px; color: #6A7482; text-align: center; }
+
+@media (max-width: 900px) {
+  .asp-chatsbtn { display: block; }
+  .asp-side { position: absolute; z-index: 5; top: 0; bottom: 0; left: 0; transform: translateX(-102%); transition: transform 0.15s; box-shadow: 2px 0 12px rgba(0, 0, 0, 0.15); }
+  .asp-side.open { transform: translateX(0); }
+  .asp-scroll { padding: 16px; }
+  .asp-foot { padding: 0 12px 12px; }
+}

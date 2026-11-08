@@ -8,6 +8,7 @@ import DatesheetsPage from "./DatesheetsPage";
 import CertificatePage from "./CertificatePage";
 import TimetablesPage from "./TimetablesPage";
 import StudentImportPage from "./StudentImportPage";
+import AssistantPage from "./AssistantPage";
 
 const API = "http://127.0.0.1:8000";
 const ROLES = ["Admin", "Department Head", "Teacher", "Student"];
@@ -149,6 +150,9 @@ export default function App() {
   }
   if (page === "templates") {
     return <TemplatesPage user={user} onLogout={handleLogout} onNavigate={setPage} />;
+  }
+  if (page === "assistant") {
+    return <AssistantPage user={user} onLogout={handleLogout} onNavigate={setPage} />;
   }
   if (page === "students") {
     return <StudentImportPage user={user} onLogout={handleLogout} onNavigate={setPage} />;

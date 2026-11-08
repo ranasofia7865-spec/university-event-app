@@ -124,3 +124,22 @@ class DatesheetRow(Base):
     venue = Column(String(50))
     instructor = Column(String(100))
     duty = Column(String(100))
+
+
+class AssistantChat(Base):
+    __tablename__ = "assistant_chats"
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    title = Column(String(120), nullable=False, default="New chat")
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow)
+
+
+class AssistantMessage(Base):
+    __tablename__ = "assistant_messages"
+    id = Column(Integer, primary_key=True, index=True)
+    chat_id = Column(Integer, ForeignKey("assistant_chats.id"), nullable=False, index=True)
+    role = Column(String(10), nullable=False)
+    content = Column(Text, nullable=False)
+    notice_json = Column(Text)
+    created_at = Column(DateTime, default=datetime.utcnow)

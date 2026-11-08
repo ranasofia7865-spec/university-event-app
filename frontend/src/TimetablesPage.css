@@ -1,29 +1,29 @@
 .ttp-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding: 14px 24px 0; }
 .ttp-view { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .ttp-view label { font-size: 14px; color: #444; }
-.ttp-view select { padding: 10px 12px; font-size: 15px; border: 1px solid #C9D0DA; border-radius: 6px; background: #fff; font-family: inherit; min-height: 44px; }
+.ttp-view select { padding: 10px 12px; font-size: 15px; border: 1px solid #BFD8D4; border-radius: 6px; background: #fff; font-family: inherit; min-height: 44px; }
 .ttp-count { font-size: 13px; color: #666; }
 .ttp-toolbar-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
 .ttp-newbtn { margin: 0; padding: 12px 18px; font-size: 14px; min-height: 44px; }
 .ttp-pdfbtn { margin: 0; padding: 12px 20px; min-height: 44px; }
 
-.ttp-newform { margin: 14px 24px 0; padding: 14px; background: #fff; border: 1px solid #D9DEE5; border-radius: 8px; }
+.ttp-newform { margin: 14px 24px 0; padding: 14px; background: #fff; border: 1px solid #D3E5E2; border-radius: 8px; }
 .ttp-newgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
 .ttp-newform label { display: block; font-size: 13px; color: #444; margin-bottom: 3px; }
-.ttp-newform input, .ttp-newform select { width: 100%; padding: 11px 10px; border: 1px solid #C9D0DA; border-radius: 6px; font-size: 16px; font-family: inherit; background: #F6F7F9; }
+.ttp-newform input, .ttp-newform select { width: 100%; padding: 11px 10px; border: 1px solid #BFD8D4; border-radius: 6px; font-size: 16px; font-family: inherit; background: #F3F9F8; }
 .ttp-newform .ttp-check { display: flex; align-items: center; gap: 8px; margin-top: 12px; font-size: 14px; }
 .ttp-newform .ttp-check input { width: auto; }
 .ttp-newactions { display: flex; gap: 8px; margin-top: 12px; }
 
 .ttp-body { display: flex; gap: 18px; padding: 16px 24px 24px; align-items: flex-start; }
 .ttp-strip { width: 190px; flex-shrink: 0; display: flex; flex-direction: column; gap: 8px; max-height: calc(100vh - 150px); overflow-y: auto; }
-.ttp-thumb { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; padding: 10px; background: #fff; border: 1px solid #D9DEE5; border-radius: 8px; cursor: pointer; font-family: inherit; min-height: 56px; }
-.ttp-thumb.on { border: 2px solid #1F3A5F; background: #EEF2F7; }
-.ttp-thumb-no { width: 26px; height: 26px; flex-shrink: 0; border-radius: 50%; background: #1F3A5F; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; }
+.ttp-thumb { display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; padding: 10px; background: #fff; border: 1px solid #D3E5E2; border-radius: 8px; cursor: pointer; font-family: inherit; min-height: 56px; }
+.ttp-thumb.on { border: 2px solid #0F766E; background: #E7F5F3; }
+.ttp-thumb-no { width: 26px; height: 26px; flex-shrink: 0; border-radius: 50%; background: #0F766E; color: #fff; font-size: 13px; display: flex; align-items: center; justify-content: center; }
 .ttp-thumb-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.ttp-thumb-text b { font-size: 14px; color: #1F3A5F; }
+.ttp-thumb-text b { font-size: 14px; color: #0F766E; }
 .ttp-thumb-text span { font-size: 12px; color: #666; }
-.ttp-thumb-add { justify-content: center; border: 1px dashed #1F3A5F; color: #1F3A5F; font-size: 14px; background: #F6F8FB; }
+.ttp-thumb-add { justify-content: center; border: 1px dashed #0F766E; color: #0F766E; font-size: 14px; background: #F1FAF9; }
 .ttp-thumb:disabled { opacity: 0.5; cursor: default; }
 .ttp-status { font-style: normal; align-self: flex-start; padding: 1px 8px; border-radius: 10px; font-size: 11px; }
 .ttp-status.draft { background: #FAEEDA; color: #633806; }
@@ -33,7 +33,7 @@
 .ttp-ok { margin: 0 0 12px; padding: 10px 12px; background: #EAF3DE; color: #27500A; border-radius: 6px; font-size: 14px; }
 
 /* The slide: looks like one page of the printed timetable */
-.ttp-slide { background: #fff; border: 1px solid #C9D0DA; border-radius: 4px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); padding: 24px 30px 20px; min-height: 420px; color: #000; }
+.ttp-slide { background: #fff; border: 1px solid #BFD8D4; border-radius: 4px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); padding: 24px 30px 20px; min-height: 420px; color: #000; }
 .ttp-slide-head { display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 14px; min-height: 70px; }
 .ttp-logo { position: absolute; left: 2%; top: 0; width: 66px; height: 66px; object-fit: contain; }
 .ttp-titles { text-align: center; padding: 0 90px; line-height: 1.5; }
@@ -44,12 +44,12 @@
 .ttp-scroll { overflow-x: auto; }
 .ttp-grid { width: 100%; min-width: 820px; table-layout: fixed; border-collapse: collapse; margin-bottom: 14px; }
 .ttp-grid th, .ttp-grid td, .ttp-courses th, .ttp-courses td { border: 1.5px solid #000; padding: 0; font-size: 13px; text-align: center; vertical-align: middle; }
-.ttp-grid th, .ttp-courses th { padding: 8px 4px; background: #E6E9ED; }
+.ttp-grid th, .ttp-courses th { padding: 8px 4px; background: #E0F0EE; }
 .ttp-grid td { padding: 4px; }
 .ttp-grid select, .ttp-grid input { display: block; width: 100%; padding: 6px 4px; font-size: 14px; font-family: inherit; border: none; background: transparent; color: #000; text-align: center; min-height: 36px; }
 .ttp-grid select { font-weight: bold; cursor: pointer; }
 .ttp-grid input { font-size: 13px; min-height: 32px; }
-.ttp-grid select:focus, .ttp-grid input:focus, .ttp-courses input:focus { outline: 2px solid #1F3A5F; outline-offset: -2px; background: #FFFBE6; }
+.ttp-grid select:focus, .ttp-grid input:focus, .ttp-courses input:focus { outline: 2px solid #0F766E; outline-offset: -2px; background: #FFFBE6; }
 .ttp-label { font-weight: bold; font-size: 14px; margin: 4px 0 6px 2px; }
 .ttp-courses { width: 100%; min-width: 700px; table-layout: fixed; border-collapse: collapse; margin-bottom: 8px; }
 .ttp-courses input { display: block; width: 100%; padding: 8px; font-size: 14px; font-family: inherit; border: none; background: transparent; color: #000; min-height: 38px; }
@@ -61,7 +61,7 @@
 
 .ttp-nav { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin: 14px 0; flex-wrap: wrap; }
 .ttp-nav .btn { margin: 0; padding: 11px 16px; min-height: 44px; }
-.ttp-pos { font-size: 14px; color: #1F3A5F; font-weight: bold; }
+.ttp-pos { font-size: 14px; color: #0F766E; font-weight: bold; }
 .ttp-unsaved { color: #A35A00; font-weight: normal; }
 .ttp-actions { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
 .ttp-actions .btn, .ttp-actions .ef-danger { margin-left: 0; padding: 12px 18px; min-height: 44px; }
