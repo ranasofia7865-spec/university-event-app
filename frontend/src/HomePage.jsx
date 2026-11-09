@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import "./HomePage.css";
+import logo from "./logo.png";
+import campus from "./campus.jpg";
 
 const API = "http://127.0.0.1:8000";
 const FILTERS = ["All", "Timetable", "Datesheet", "FYP", "Event", "Exam", "Holiday", "Notice"];
@@ -296,7 +298,7 @@ export default function HomePage({ user, onLogout, onNavigate }) {
         </span>
       </div>
       <div className="hp-head">
-        <div className="hp-logo">LOGO</div>
+        <img className="hp-logo hp-logo-img" src={logo} alt="University logo" />
         <div className="hp-name">
           The Women University Multan
           <span>Event Management Reminder App</span>
@@ -319,7 +321,7 @@ export default function HomePage({ user, onLogout, onNavigate }) {
             See all notifications
           </button>
         </div>
-        <div className="hp-photo">University photo goes here</div>
+        <img className="hp-photo hp-photo-img" src={campus} alt="The Women University Multan campus" />
       </div>
       <div className="hp-tiles">
         {tiles.map((t) => (

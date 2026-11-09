@@ -9,6 +9,8 @@ import CertificatePage from "./CertificatePage";
 import TimetablesPage from "./TimetablesPage";
 import StudentImportPage from "./StudentImportPage";
 import AssistantPage from "./AssistantPage";
+import logo from "./logo.png";
+import "./visuals.css";
 
 const API = "http://127.0.0.1:8000";
 const ROLES = ["Admin", "Department Head", "Teacher", "Student"];
@@ -70,6 +72,7 @@ function Login({ onLogin }) {
   return (
     <div className="login-page">
       <div className="login-left">
+        <img className="login-logo" src={logo} alt="The Women University Multan logo" />
         <h1>The Women University Multan</h1>
         <p>Event Management Reminder App</p>
         <p className="small">

@@ -1,3 +1,5 @@
+import logo from "./logo.png";
+
 export default function Sidebar({ user, page, onNavigate }) {
   const staff = user.role !== "Student";
   const items = [{ key: "home", name: "Home" }, { key: "calendar", name: "Calendar" }];
@@ -16,9 +18,12 @@ export default function Sidebar({ user, page, onNavigate }) {
   }
   return (
     <div className="side">
-      <div className="side-title">
-        Women University Multan
-        <span>Event Management</span>
+      <div className="side-title side-brand">
+        <img className="side-logo" src={logo} alt="University logo" />
+        <div>
+          Women University Multan
+          <span>Event Management</span>
+        </div>
       </div>
       {items.map((item) =>
         item.soon ? (
