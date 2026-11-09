@@ -1,0 +1,51 @@
+/* Logo and campus pictures: login page, Home page and menu */
+
+/* ---------- Login page ---------- */
+body .login-left { background: linear-gradient(160deg, rgba(6, 64, 60, 0.88), rgba(15, 118, 110, 0.78)), url("./campus.jpg") center / cover no-repeat; }
+body .login-left h1 { text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35); }
+body .login-left p { color: #E7F5F3; }
+body .login-left .small { color: #CCEBE7; }
+.login-logo { width: 104px; height: 104px; object-fit: contain; background: #fff; border-radius: 50%; padding: 6px; margin-bottom: 20px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3); }
+
+/* ---------- Menu ---------- */
+.side-brand { display: flex; align-items: center; gap: 10px; }
+.side-logo { width: 44px; height: 44px; flex-shrink: 0; object-fit: contain; background: #fff; border-radius: 50%; padding: 3px; }
+
+/* ---------- Home page: menu over a full-width photo, like the university website ---------- */
+body .hp { position: relative; background: #F3F9F8; }
+body .hp-strip { background: #073F3B; color: #CCEBE7; }
+body .hp-link { border-color: #99D5CF; }
+
+body .hp-head { position: relative; z-index: 3; min-height: 92px; margin-bottom: -92px; background: linear-gradient(180deg, rgba(4, 38, 36, 0.82), rgba(4, 38, 36, 0)); border-bottom: 0; padding: 14px 32px; }
+body .hp-logo-img { width: 58px; height: 58px; object-fit: contain; background: #fff; padding: 3px; border: 2px solid rgba(255, 255, 255, 0.9); border-radius: 50%; }
+body .hp-name { color: #fff; font-family: "Times New Roman", Times, serif; font-size: 24px; font-weight: normal; text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5); padding-left: 14px; border-left: 2px solid rgba(255, 255, 255, 0.85); }
+body .hp-name span { color: #E7F5F3; font-family: Arial, Helvetica, sans-serif; font-size: 12px; }
+body .hp-nav button, body .hp-nav span { color: #fff; font-weight: bold; text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6); }
+body .hp-nav .on { color: #fff; border-bottom: 3px solid #FFC857; }
+body .hp-nav .off { color: #CFE3E0; }
+
+body .hp-hero { position: relative; display: flex; align-items: flex-end; min-height: min(78vh, 700px); padding: 130px 40px 96px; background: linear-gradient(180deg, rgba(4, 38, 36, 0.15) 0%, rgba(4, 38, 36, 0.05) 45%, rgba(4, 38, 36, 0.6) 100%), url("./home-hero.jpg") center 40% / cover no-repeat; color: #fff; }
+body .hp-hero-text { flex: 0 1 600px; background: rgba(6, 64, 60, 0.78); border-radius: 14px; padding: 22px 26px; backdrop-filter: blur(3px); }
+body .hp-hero h1 { font-size: 30px; }
+body .hp-hero p { color: #E7F5F3; }
+body .hp-photo, body .hp-photo-img { display: none; }
+body .hp-hero::after { content: "Welcome to Women University Multan"; position: absolute; left: 0; right: 0; bottom: 0; padding: 16px 20px; background: #0A5A54; color: #fff; text-align: center; font-size: 24px; letter-spacing: 0.02em; }
+
+body .hp-tiles { margin-top: 26px; gap: 16px; padding: 0 32px; }
+body .hp-tile { border: 1px solid #D3E5E2; border-radius: 14px; padding: 22px 12px; box-shadow: 0 3px 10px rgba(15, 118, 110, 0.1); transition: transform 0.15s, box-shadow 0.15s; }
+body .hp-tile:hover:not(.off) { transform: translateY(-4px); box-shadow: 0 10px 22px rgba(15, 118, 110, 0.2); }
+body .hp-tile b { font-size: 15px; color: #0F766E; }
+body .hp-dot { width: 52px; height: 52px; font-size: 20px; background: linear-gradient(135deg, #0F766E, #14A39A); }
+body .hp-latest { margin-left: 32px; margin-right: 32px; }
+body .hp-latest-label { background: #FFC857; }
+body .hp-tag { background: #FFC857; }
+body .hp-cta { background: #FFC857; }
+body .hp-stats { background: #0A5A54; }
+
+@media (max-width: 800px) {
+  body .hp-head { padding: 12px 16px; }
+  body .hp-name { font-size: 18px; }
+  body .hp-hero { padding: 150px 16px 90px; }
+  body .hp-hero::after { font-size: 18px; }
+  body .hp-tiles { padding: 0 16px; }
+}
