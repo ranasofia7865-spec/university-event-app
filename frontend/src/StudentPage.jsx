@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import "./StudentPage.css";
+import logo from "./logo.png";
+import heroPic from "./student-pic.jpg";
 
 const API = "http://127.0.0.1:8000";
 
@@ -85,7 +87,7 @@ export default function StudentPage({ user, onLogout, onNavigate }) {
   return (
     <div className="sp">
       <div className="sp-top">
-        <div className="sp-logo">Logo</div>
+        <img className="sp-logo sp-logo-img" src={logo} alt="University logo" />
         <div className="sp-name">
           The Women University Multan
           <span>Event Management Reminder App</span>
@@ -162,7 +164,7 @@ export default function StudentPage({ user, onLogout, onNavigate }) {
           )}
         </div>
         <div className="sp-side">
-          <div className="sp-pic">University picture goes here</div>
+          <img className="sp-pic sp-pic-img" src={heroPic} alt="The Women University Multan academic block" />
           <div className="sp-uni">The Women University Multan</div>
           <div className="sp-muted">Kutchery Campus, Multan</div>
         </div>
