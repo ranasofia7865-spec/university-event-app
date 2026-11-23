@@ -52,11 +52,14 @@
 .asp-foot { padding: 0 24px 16px; }
 .asp-composer { display: flex; align-items: flex-end; gap: 4px; background: #fff; border: 1px solid #BFD8D4; border-radius: 16px; padding: 8px 10px; }
 .asp-composer textarea { flex: 1; border: 0; outline: 0; font-size: 15px; padding: 11px 6px; background: transparent; resize: none; font-family: inherit; max-height: 140px; min-height: 22px; field-sizing: content; }
-.asp-ib { width: 44px; height: 44px; flex-shrink: 0; border: 0; border-radius: 10px; background: transparent; color: #0F766E; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.asp-ib svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.asp-ib:disabled { opacity: 0.4; cursor: default; }
+.asp-ib { width: 44px; height: 44px; flex-shrink: 0; border: 1px solid #99D5CF; border-radius: 10px; background: #F1FAF9; color: #0F766E; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.asp-tool:hover { background: #D5EFEB; }
+.asp-ib svg { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.asp-ib:disabled { cursor: default; }
+.asp-tool.rec { background: #D64545; border-color: #D64545; color: #fff; }
 .asp-send { background: #0F766E; color: #fff; }
-.asp-send:disabled { background: #8FB8B3; opacity: 1; }
+.asp-send { border-color: #0F766E; }
+.asp-send:disabled { background: #6FB3AB; border-color: #6FB3AB; opacity: 1; }
 .asp-hint { margin-top: 8px; font-size: 12px; color: #6A7482; text-align: center; }
 
 @media (max-width: 900px) {
@@ -66,3 +69,42 @@
   .asp-scroll { padding: 16px; }
   .asp-foot { padding: 0 12px 12px; }
 }
+
+.asp-recbar { display: flex; align-items: center; gap: 10px; margin: 0 0 8px; padding: 10px 14px; background: #FDECEC; color: #8A1F1F; border-radius: 10px; font-size: 14px; }
+.asp-recbar.listening { background: #E7F5F3; color: #0A5A54; }
+.asp-dot { width: 12px; height: 12px; border-radius: 50%; background: #D64545; animation: aspPulse 1s infinite; flex-shrink: 0; }
+@keyframes aspPulse { 0% { opacity: 1; } 50% { opacity: 0.25; } 100% { opacity: 1; } }
+
+.asp-chips-top { margin: 0 0 10px; }
+.asp-chip.done { background: #D7F0DC; color: #1D6B34; font-weight: bold; }
+.asp-body { margin: 10px 0 4px; font-size: 15px; line-height: 1.7; color: #1B2430; white-space: pre-wrap; }
+.asp-edit-wide { display: block; }
+.asp-edit-wide .asp-edit-field { margin-bottom: 8px; }
+.asp-edit-field textarea { width: 100%; padding: 10px; border: 1px solid #BFD8D4; border-radius: 6px; font-size: 15px; background: #F3F9F8; box-sizing: border-box; font-family: inherit; line-height: 1.5; resize: vertical; }
+
+.asp-attach { display: flex; align-items: center; gap: 10px; margin: 0 0 8px; padding: 8px 10px; background: #fff; border: 1px solid #BFD8D4; border-radius: 10px; max-width: 460px; }
+.asp-attach-thumb { width: 44px; height: 44px; object-fit: cover; border-radius: 6px; flex-shrink: 0; }
+.asp-attach-pdf { width: 44px; height: 44px; border-radius: 6px; background: #FDECEC; color: #A32D2D; font-weight: bold; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.asp-attach-name { flex: 1; min-width: 0; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.asp-attach-x { width: 36px; height: 36px; border: 0; border-radius: 8px; background: #F3F9F8; color: #A32D2D; font-size: 22px; cursor: pointer; flex-shrink: 0; }
+.asp-attach-x:hover { background: #FCEBEB; }
+
+.asp-doc-note { margin: 4px 0 10px; font-size: 14px; color: #5B6675; }
+.asp-sheet { border: 1px solid #D3E5E2; border-radius: 8px; margin-bottom: 8px; overflow: hidden; }
+.asp-sheet-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; width: 100%; padding: 10px 14px; min-height: 44px; border: 0; background: #F3F9F8; color: #0F766E; font-size: 14px; cursor: pointer; font-family: inherit; text-align: left; }
+.asp-sheet-head.on { background: #D5EFEB; }
+.asp-sheet-head span { color: #5B6675; font-size: 13px; }
+.asp-scroll-x { overflow-x: auto; padding: 8px; }
+.asp-mini { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 8px; }
+.asp-mini th, .asp-mini td { border: 1px solid #BFD8D4; padding: 6px 8px; text-align: left; vertical-align: top; }
+.asp-mini th { background: #E0F0EE; color: #0A5A54; }
+.asp-mini td.asp-duty { background: #E3F4D3; }
+.asp-courses-mini { margin-top: 10px; }
+.asp-ds td:nth-child(2), .asp-ds td:nth-child(4) { white-space: nowrap; }
+
+.asp-gen { border: 1px solid #D3E5E2; border-radius: 8px; padding: 12px 16px; margin-bottom: 10px; background: #FBFDFD; max-height: 420px; overflow-y: auto; }
+.asp-gen h4 { margin: 12px 0 4px; color: #0F766E; font-size: 15px; }
+.asp-gen p { margin: 6px 0; font-size: 14px; line-height: 1.6; }
+.asp-gen ul, .asp-gen ol { margin: 6px 0 6px 20px; padding: 0; font-size: 14px; line-height: 1.6; }
+.asp-gen-sub { color: #5B6675; font-size: 13px; margin-bottom: 6px; }
+.asp-gen-sign { margin-top: 16px; font-size: 14px; text-align: right; line-height: 1.5; }
