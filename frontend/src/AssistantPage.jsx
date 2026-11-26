@@ -383,11 +383,24 @@ function GeneralPreview({ doc }) {
   );
 }
 
-export function DocumentCard({ message, onPdf }) {
+export function DocumentCard({ message, onPdf, onSaveDrafts, onOpenScreen }) {
   const doc = message.notice.document;
   const [open, setOpen] = useState(0);
   const [working, setWorking] = useState("");
   const [err, setErr] = useState("");
+  const [failed, setFailed] = useState([]);
+  const savedCount = (message.notice.saved || []).length;
+  const screen = doc.kind === "datesheet" ? "Datesheet" : "Timetable";
+
+  async function saveDrafts() {
+    setWorking("save");
+    setErr("");
+    setFailed([]);
+    const r = await onSaveDrafts(message.id);
+    setWorking("");
+    if (r.problem) setErr(r.problem);
+    setFailed(r.failed || []);
+  }
 
   async function run(mode) {
     setWorking(mode);
@@ -407,6 +420,7 @@ export function DocumentCard({ message, onPdf }) {
             {doc.sheets.length} class{doc.sheets.length === 1 ? "" : "es"}
           </span>
         )}
+        {savedCount > 0 && <span className="asp-chip done">{savedCount} saved as drafts</span>}
       </div>
       <div className="asp-notice-title">{doc.title}</div>
       <p className="asp-doc-note">Please check the details below, then download or print the PDF.</p>
@@ -430,12 +444,34 @@ export function DocumentCard({ message, onPdf }) {
         <button className="btn asp-btn" onClick={() => run("print")} disabled={!!working}>
           {working === "print" ? "Preparing..." : "Print"}
         </button>
+        {doc.kind !== "document" && (
+          <button className="btn asp-btn" onClick={saveDrafts} disabled={!!working}>
+            {working === "save" ? "Saving..." : "Save to the " + screen + " screen"}
+          </button>
+        )}
+        {savedCount > 0 && (
+          <button className="btn asp-btn" onClick={() => onOpenScreen(doc.kind)}>
+            Open the {screen} screen
+          </button>
+        )}
       </div>
+      {failed.length > 0 && (
+        <div className="asp-failed">
+          <b>These could not be saved:</b>
+          <ul>
+            {failed.map((f, i) => (
+              <li key={i}>
+                <b>{f.label}:</b> {f.reason}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
 
-export function MessageList({ messages, busy, onSave, onCopy, onPublish, onPdf }) {
+export function MessageList({ messages, busy, onSave, onCopy, onPublish, onPdf, onSaveDrafts, onOpenScreen }) {
   return (
     <div className="asp-messages">
       {messages.map((m) =>
@@ -449,7 +485,7 @@ export function MessageList({ messages, busy, onSave, onCopy, onPublish, onPdf }
             {m.notice && m.notice.body && (
               <WrittenNotice message={m} onSave={onSave} onCopy={onCopy} onPublish={onPublish} />
             )}
-            {m.notice && m.notice.document && <DocumentCard message={m} onPdf={onPdf} />}
+            {m.notice && m.notice.document && <DocumentCard message={m} onPdf={onPdf} onSaveDrafts={onSaveDrafts} onOpenScreen={onOpenScreen} />}
             {m.notice && !m.notice.body && !m.notice.document && <NoticeCard message={m} onSave={onSave} onCopy={onCopy} />}
           </div>
         )
@@ -808,6 +844,24 @@ export default function AssistantPage({ user, onLogout, onNavigate }) {
     }
   }
 
+  async function saveDrafts(messageId) {
+    try {
+      const d = await call("/assistant/messages/" + messageId + "/save-drafts", { method: "POST" });
+      if (!d) return { problem: "", failed: [] };
+      setMessages((prev) => prev.map((m) => (m.id === messageId ? d.message : m)));
+      if (d.saved.length > 0) {
+        setNote(d.saved.length + " saved as drafts. Open the screen to check and publish them.");
+      }
+      return { problem: "", failed: d.failed };
+    } catch (err) {
+      return { problem: err.message === "Failed to fetch" ? "Cannot reach the server." : err.message, failed: [] };
+    }
+  }
+
+  function openScreen(kind) {
+    onNavigate(kind === "datesheet" ? "datesheet" : "timetable");
+  }
+
   async function publishNotice(messageId) {
     const who = user.role === "Admin" ? "ALL students of the university" : "the students of your department";
     if (!window.confirm("Publish this notice to " + who + " now? They will see it on their Home page.")) return "";
@@ -916,7 +970,7 @@ export default function AssistantPage({ user, onLogout, onNavigate }) {
                   </div>
                 </div>
               )}
-              <MessageList messages={messages} busy={busy} onSave={saveNotice} onCopy={copyNotice} onPublish={publishNotice} onPdf={documentPdf} />
+              <MessageList messages={messages} busy={busy} onSave={saveNotice} onCopy={copyNotice} onPublish={publishNotice} onPdf={documentPdf} onSaveDrafts={saveDrafts} onOpenScreen={openScreen} />
               <div ref={endRef}></div>
             </div>
 

@@ -321,6 +321,167 @@ def document_pdf(message_id: int, db: Session = Depends(get_db), user=Depends(re
     )
 
 
+def sheet_label(s):
+    return (s.get("program", "") + " " + s.get("semester", "") + " " + s.get("section", "")).strip() or "Class"
+
+
+def reason_of(e):
+    return e.detail if isinstance(e.detail, str) else "It could not be saved."
+
+
+def save_datesheet_drafts(doc, saved, db, user):
+    import datesheets
+
+    done, failed = [], []
+    for s in doc["sheets"]:
+        label = sheet_label(s)
+        if label in saved:
+            continue
+        if not doc.get("term"):
+            failed.append({"label": label, "reason": "The term is missing. Tell me the term, for example Fall 2026."})
+            continue
+        if not s.get("session"):
+            failed.append({"label": label, "reason": "The session is missing. Tell me the session, for example 2023-2027."})
+            continue
+        no_date = [r for r in s["rows"] if not r["date"]]
+        rows = [r for r in s["rows"] if r["date"] and r["subject"]]
+        if no_date or not rows:
+            failed.append({"label": label, "reason": "Some papers have no date or no subject. Tell me the missing dates."})
+            continue
+        created = None
+        try:
+            created = datesheets.create_datesheet(
+                data=datesheets.DatesheetCreate(
+                    kind=doc.get("exam_kind") or "Mid-term",
+                    term=doc["term"],
+                    program=s["program"],
+                    semester=s["semester"],
+                    session=s["session"],
+                    section=s["section"],
+                ),
+                db=db,
+                user=user,
+            )
+            datesheets.save_datesheet(
+                datesheet_id=created["id"],
+                data=datesheets.SaveData(
+                    incharge_bsit=s["incharge_bsit"] or None,
+                    incharge_bscs=s["incharge_bscs"] or None,
+                    director=s["director"] or None,
+                    rows=[
+                        datesheets.RowData(
+                            exam_date=date.fromisoformat(r["date"]),
+                            subject=r["subject"],
+                            time_text=r["time"] or None,
+                            venue=r["venue"] or None,
+                            instructor=r["instructor"] or None,
+                            duty=r["duty"] or None,
+                        )
+                        for r in rows
+                    ],
+                ),
+                db=db,
+                user=user,
+            )
+            done.append(label)
+        except HTTPException as e:
+            if created:
+                db.rollback()
+                db.query(models.DatesheetRow).filter(models.DatesheetRow.datesheet_id == created["id"]).delete()
+                db.query(models.Datesheet).filter(models.Datesheet.id == created["id"]).delete()
+                db.commit()
+            failed.append({"label": label, "reason": reason_of(e)})
+    return done, failed
+
+
+def save_timetable_drafts(doc, saved, db, user):
+    import timetables
+
+    done, failed = [], []
+    for s in doc["sheets"]:
+        label = sheet_label(s)
+        if label in saved:
+            continue
+        if not doc.get("term"):
+            failed.append({"label": label, "reason": "The term is missing. Tell me the term, for example Spring 2027."})
+            continue
+        if any(d not in timetables.DAYS for d in s["days"]) or any(t not in timetables.SLOTS for t in s["time_slots"]):
+            failed.append(
+                {
+                    "label": label,
+                    "reason": "The Timetable screen only supports Monday to Friday and the slots 08:00-09:00 to 01:00-02:00. "
+                    "You can still download the PDF.",
+                }
+            )
+            continue
+        courses = [c for c in s["courses"] if c["code"] and c["subject"]]
+        codes = {c["code"] for c in courses}
+        slots = [c for c in s["slots"] if c["course_code"] in codes]
+        created = None
+        try:
+            created = timetables.create_timetable(
+                data=timetables.TimetableData(
+                    program=s["program"], semester=s["semester"], section=s["section"], term=doc["term"]
+                ),
+                db=db,
+                user=user,
+            )
+            timetables.save_content(
+                timetable_id=created["id"],
+                data=timetables.ContentData(
+                    courses=[
+                        timetables.CourseData(
+                            code=c["code"],
+                            subject=c["subject"],
+                            credit_hours=c["credit_hours"] or None,
+                            faculty=c["faculty"] or None,
+                        )
+                        for c in courses
+                    ],
+                    slots=[
+                        timetables.SlotData(
+                            day=c["day"], slot=c["slot"], course_code=c["course_code"], room=c["room"] or None
+                        )
+                        for c in slots
+                    ],
+                ),
+                db=db,
+                user=user,
+            )
+            done.append(label)
+        except HTTPException as e:
+            if created:
+                db.rollback()
+                db.query(models.TimetableSlot).filter(models.TimetableSlot.timetable_id == created["id"]).delete()
+                db.query(models.TimetableCourse).filter(models.TimetableCourse.timetable_id == created["id"]).delete()
+                db.query(models.Timetable).filter(models.Timetable.id == created["id"]).delete()
+                db.commit()
+            failed.append({"label": label, "reason": reason_of(e)})
+    return done, failed
+
+
+@router.post("/messages/{message_id}/save-drafts")
+def save_drafts(message_id: int, db: Session = Depends(get_db), user=Depends(require_roles(*STAFF))):
+    msg = db.query(models.AssistantMessage).filter(models.AssistantMessage.id == message_id).first()
+    if not msg or not msg.notice_json:
+        raise HTTPException(status_code=404, detail="Message not found")
+    own_chat(db, msg.chat_id, user)
+    notice = json.loads(msg.notice_json)
+    doc = notice.get("document")
+    if not doc or doc.get("kind") not in ("datesheet", "timetable"):
+        raise HTTPException(status_code=400, detail="Only datesheets and timetables can be saved to the screens")
+    saved = notice.get("saved") or []
+    if doc["kind"] == "datesheet":
+        done, failed = save_datesheet_drafts(doc, saved, db, user)
+    else:
+        done, failed = save_timetable_drafts(doc, saved, db, user)
+    notice["saved"] = saved + done
+    msg.notice_json = json.dumps(notice, ensure_ascii=False)
+    db.commit()
+    db.refresh(msg)
+    return {"message": message_out(msg), "saved": done, "failed": failed}
+
+
 @router.post("/messages/{message_id}/publish")
 def publish_notice(message_id: int, db: Session = Depends(get_db), user=Depends(require_roles(*STAFF))):
     msg = db.query(models.AssistantMessage).filter(models.AssistantMessage.id == message_id).first()
